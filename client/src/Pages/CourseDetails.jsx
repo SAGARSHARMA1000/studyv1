@@ -125,154 +125,173 @@ function CourseDetails() {
 
   return (
     <>
-      <div className={`relative w-full bg-richblack-800`}>
-        {/* Hero Section */}
-        <div className="mx-auto box-content px-4 lg:w-315 2xl:relative ">
-          <div className="mx-auto grid min-h-112.5 max-w-maxContentTab justify-items-center py-8 lg:mx-0 lg:justify-items-start lg:py-0 xl:max-w-202.5">
-            <div className="relative block max-h-120 lg:hidden">
-              <div className="absolute bottom-0 left-0 h-full w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]"></div>
-              <img
-                src={thumbnail}
-                alt="course thumbnail"
-                className="aspect-auto w-full"
-              />
-            </div>
-            <div
-              className={`z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5`}
-            >
-              <div>
-                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] tracking-wider lg:text-left text-center">
-                  {courseName}
-                </p>
-              </div>
-              <p className={`text-richblack-200`}>
-                <ul style={{ listStyle: 'none', padding: 0 }} >
-                  {courseDescription.split('\n').map((line, index) => (
-                    <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
-                      <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
-                      <span>{line.trim().substring(line.indexOf('.') + 1).trim()}</span>
-                    </li>
-                  ))}
-                </ul>
-              </p>
-              <div className="text-md flex flex-wrap items-center gap-2 lg:justify-start justify-center">
-                <span className="text-yellow-25">{avgReviewCount}</span>
-                <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                <span>{`${studentsEnroled.length} students enrolled`}</span>
-              </div>
-              <div>
-                <p className="">
-                  Created By {`${instructor.firstName} ${instructor.lastName}`}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-5 text-lg">
-                <p className="flex items-center gap-2">
-                  {" "}
-                  <BiInfoCircle /> Created at {formatDate(createdAt)}
-                </p>
-                <p className="flex items-center gap-2">
-                  {" "}
-                  <HiOutlineGlobeAlt /> English
-                </p>
-              </div>
-            </div>
-            <div className="flex w-full flex-col gap-4 border-y border-y-richblack-500 py-4 lg:hidden">
-              <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
-                Rs. {price}
-              </p>
-              <button className="yellowButton uppercase tracking-wider" onClick={handleBuyCourse}>
-                Buy Now
-              </button>
-              <button className="blackButton uppercase tracking-wider">Add to Cart</button>
-            </div>
-          </div>
-          {/* Courses Card */}
-          <div className="right-4 top-15 mx-auto hidden min-h-150 w-1/3 max-w-102.5 translate-y-24 md:translate-y-0 lg:absolute  lg:block">
-            <CourseDetailsCard
-              course={response?.data?.courseDetails}
-              setConfirmationModal={setConfirmationModal}
-              handleBuyCourse={handleBuyCourse}
-            />
-          </div>
+     {/* ================= HERO + COURSE CARD ================= */}
+<div className="w-full bg-richblack-800">
+  <div className="mx-auto max-w-maxContentTab px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    {/* ================= LEFT CONTENT ================= */}
+    <div className="lg:col-span-2 flex flex-col gap-6">
+
+      {/* Mobile Thumbnail */}
+      <div className="relative block max-h-120 lg:hidden">
+        <div className="absolute bottom-0 left-0 h-full w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]" />
+        <img
+          src={thumbnail}
+          alt="course thumbnail"
+          className="w-full"
+        />
+      </div>
+
+      {/* Course Info */}
+      <div className="flex flex-col gap-4 text-richblack-5">
+        <p className="text-4xl font-bold sm:text-[42px] tracking-wider text-center lg:text-left">
+          {courseName}
+        </p>
+
+        {/* ✅ FIXED: no <p> wrapping <ul> */}
+        <div className="text-richblack-200">
+          <ul className="space-y-2">
+            {courseDescription.split("\n").map((line, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <span>{index + 1}.</span>
+                <span>{line.trim().substring(line.indexOf(".") + 1).trim()}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Ratings */}
+        <div className="flex flex-wrap items-center gap-2 justify-center lg:justify-start">
+          <span className="text-yellow-25">{avgReviewCount}</span>
+          <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
+          <span>({ratingAndReviews.length} reviews)</span>
+          <span>{studentsEnroled.length} students enrolled</span>
+        </div>
+
+        {/* Instructor */}
+        <p>
+          Created By {`${instructor.firstName} ${instructor.lastName}`}
+        </p>
+
+        {/* Meta */}
+        <div className="flex flex-wrap gap-5 text-lg">
+          <p className="flex items-center gap-2">
+            <BiInfoCircle /> Created at {formatDate(createdAt)}
+          </p>
+          <p className="flex items-center gap-2">
+            <HiOutlineGlobeAlt /> English
+          </p>
         </div>
       </div>
-      <div className="mx-auto box-content px-4 text-start text-richblack-5 lg:w-315">
-        <div className="mx-auto max-w-maxContentTab lg:mx-0 xl:max-w-202.5">
-          {/* What will you learn section */}
-          <div className="my-8 border border-richblack-600 p-8">
-            <p className="text-3xl font-semibold uppercase tracking-wider">What you'll Learn?</p>
-            <div className="mt-5">
-              <ul style={{ listStyle: 'none', padding: 0 }} className="leading-relaxed">
-                {whatYouWillLearn.split('\n').map((line, index) => (
-                  <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
-                    <span style={{ marginRight: '0.5em' }}>{index + 1}.</span>
-                    <span>{line.trim().substring(line.indexOf('.') + 1).trim()}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
 
-          {/* Course Content Section */}
-          <div className="max-w-207.5 ">
-            <div className="flex flex-col gap-3">
-              <p className="text-[28px] font-semibold uppercase tracking-wider">Course Content</p>
-              <div className="flex flex-wrap justify-between gap-2">
-                <div className="flex gap-2 tracking-wide">
-                  <span>
-                    {courseContent.length} {`section(s)`}
-                  </span>
-                  <span>
-                    {totalNoOfLectures} {`lecture(s)`}
-                  </span>
-                  <span>{response.data?.totalDuration}</span>
-                </div>
-                <div>
-                  <button
-                    className="text-yellow-25"
-                    onClick={() => setIsActive([])}
-                  >
-                    Collapse all sections
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Course Details Accordion */}
-            <div className="py-4">
-              {courseContent?.map((course, index) => (
-                <CourseAccordionBar
-                  course={course}
-                  key={index}
-                  isActive={isActive}
-                  handleActive={handleActive}
-                />
-              ))}
-            </div>
-
-            {/* Author Details */}
-            <div className="mb-12 py-4">
-              <p className="text-[28px] font-semibold">Author</p>
-              <div className="flex items-center gap-4 py-4">
-                <img
-                  src={
-                    instructor.image
-                      ? instructor.image
-                      : `https://api.dicebear.com/5.x/initials/svg?seed=${instructor.firstName} ${instructor.lastName}`
-                  }
-                  alt="Author"
-                  className="h-14 w-14 rounded-full object-cover"
-                />
-                <p className="text-lg">{`${instructor.firstName} ${instructor.lastName}`}</p>
-              </div>
-              <p className="text-richblack-50">
-                {instructor?.additionalDetails?.about}
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Mobile Price Box */}
+      <div className="flex flex-col gap-4 border-y border-richblack-500 py-4 lg:hidden">
+        <p className="text-3xl font-semibold">Rs. {price}</p>
+        <button
+          className="yellowButton uppercase tracking-wider"
+          onClick={handleBuyCourse}
+        >
+          Buy Now
+        </button>
+        <button className="blackButton uppercase tracking-wider">
+          Add to Cart
+        </button>
       </div>
+    </div>
+
+    {/* ================= RIGHT COURSE CARD ================= */}
+    <div className="hidden lg:block sticky top-24 h-fit">
+      <CourseDetailsCard
+        course={response?.data?.courseDetails}
+        setConfirmationModal={setConfirmationModal}
+        handleBuyCourse={handleBuyCourse}
+      />
+    </div>
+  </div>
+</div>
+
+{/* ================= LOWER CONTENT ================= */}
+<div className="mx-auto max-w-maxContentTab px-4 text-richblack-5">
+
+  {/* What You'll Learn */}
+  <div className="my-8 border border-richblack-600 p-8">
+    <p className="text-3xl font-semibold uppercase tracking-wider">
+      What you'll Learn?
+    </p>
+
+    <div className="mt-5">
+      <ul className="space-y-2 leading-relaxed">
+        {whatYouWillLearn.split("\n").map((line, index) => (
+          <li key={index} className="flex items-start gap-2">
+            <span>{index + 1}.</span>
+            <span>{line.trim().substring(line.indexOf(".") + 1).trim()}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  {/* Course Content */}
+  <div className="max-w-207.5">
+    <div className="flex flex-col gap-3">
+      <p className="text-[28px] font-semibold uppercase tracking-wider">
+        Course Content
+      </p>
+
+      <div className="flex flex-wrap justify-between gap-2">
+        <div className="flex gap-2">
+          <span>{courseContent.length} section(s)</span>
+          <span>{totalNoOfLectures} lecture(s)</span>
+          <span>{response.data?.totalDuration}</span>
+        </div>
+
+        <button
+          className="text-yellow-25"
+          onClick={() => setIsActive([])}
+        >
+          Collapse all sections
+        </button>
+      </div>
+    </div>
+
+    {/* Accordion */}
+    <div className="py-4">
+      {courseContent.map((course, index) => (
+        <CourseAccordionBar
+          key={index}
+          course={course}
+          isActive={isActive}
+          handleActive={handleActive}
+        />
+      ))}
+    </div>
+
+    {/* Author */}
+    <div className="mb-12 py-4">
+      <p className="text-[28px] font-semibold">Author</p>
+
+      <div className="flex items-center gap-4 py-4">
+        <img
+          src={
+            instructor.image
+              ? instructor.image
+              : `https://api.dicebear.com/5.x/initials/svg?seed=${instructor.firstName} ${instructor.lastName}`
+          }
+          alt="Author"
+          className="h-14 w-14 rounded-full object-cover"
+        />
+        <p className="text-lg">
+          {instructor.firstName} {instructor.lastName}
+        </p>
+      </div>
+
+      <p className="text-richblack-50">
+        {instructor?.additionalDetails?.about}
+      </p>
+    </div>
+  </div>
+</div>
+
       <Footer />
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
