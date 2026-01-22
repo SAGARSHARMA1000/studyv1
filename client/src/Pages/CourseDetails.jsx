@@ -141,11 +141,11 @@ function CourseDetails() {
               className={`z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5`}
             >
               <div>
-                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] tracking-wider lg:text-left text-center">
+                <p className="text-4xl font-bold text-richblack-5 sm:text-[42px] tracking-wider max-w-full lg:max-w-[65%]">
                   {courseName}
                 </p>
               </div>
-              <p className={`text-richblack-200`}>
+              <p className={`text-richblack-200 max-w-full lg:max-w-[65%]`}>
                 <ul style={{ listStyle: 'none', padding: 0 }} >
                   {courseDescription.split('\n').map((line, index) => (
                     <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
