@@ -145,7 +145,7 @@ function CourseDetails() {
                   {courseName}
                 </p>
               </div>
-              <p className={`text-richblack-200 max-w-full lg:max-w-[65%]`}>
+              {/* <p className={`text-richblack-200 max-w-full lg:max-w-[65%]`}>
                 <ul style={{ listStyle: 'none', padding: 0 }} >
                   {courseDescription.split('\n').map((line, index) => (
                     <li key={index} style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -154,7 +154,23 @@ function CourseDetails() {
                     </li>
                   ))}
                 </ul>
-              </p>
+              </p> */}
+              <div className="text-richblack-200 max-w-full lg:max-w-[65%]">
+  <ul className="space-y-2">
+    {courseDescription
+      .split('. ')
+      .filter(sentence => sentence.trim().length > 0)
+      .map((sentence, index) => (
+        <li key={index} className="flex items-start gap-2">
+          <span>{index + 1}.</span>
+          <span>
+            {sentence.endsWith('.') ? sentence : `${sentence}.`}
+          </span>
+        </li>
+      ))}
+  </ul>
+</div>
+
               <div className="text-md flex flex-wrap items-center gap-2 lg:justify-start justify-center">
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
